@@ -8,6 +8,8 @@ sns.set_style('darkgrid')
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib.figure import Figure
 
+from collections import defaultdict
+
 # Load data
 import json
 data = json.load(open('covid19-cuba.json'))
@@ -75,6 +77,37 @@ total_activos = total_diagnosticados - (total_recuperados + total_evacuados + to
 last_day = [k for k in data['casos']['dias'].keys()][-1]
 fecha = data['casos']['dias'][last_day]['fecha']
 
+# Casos por sexo
+sex_labels = 'Mujeres', 'Hombres', 'No reportado'
+hombres = 0
+mujeres = 0
+non_sex = 0
+
+for k in range(1, len(data['casos']['dias'].keys())+1):
+    try:
+        for caso in data['casos']['dias'][str(k)]['diagnosticados']:
+            if caso['sexo'] == 'hombre':
+                hombres += 1
+            elif caso['sexo'] == 'mujer':
+                mujeres += 1
+            else:
+                non_sex += 1
+    except:
+        pass
+
+# Modos de contagio
+modos = defaultdict(int)
+
+for k in range(1, len(data['casos']['dias'].keys())+1):
+    try:
+        for caso in data['casos']['dias'][str(k)]['diagnosticados']:
+            modos[caso['contagio']] += 1
+    except:
+        pass
+
+modos_labels = [str(k) for k in modos.keys()]
+modos_values = [v for v in modos.values()]
+
 # Setting api
 app = Flask(__name__)
 CORS(app)
@@ -114,6 +147,42 @@ def evolution():
 
     return send_file(
         'evolution.png'
+    )
+
+@app.route('/sexo', methods=['GET'])
+def sexo():
+
+    fig = Figure(figsize=(8, 6))
+
+    ax = fig.add_subplot(1, 1, 1)
+
+    wedges, _, _  = ax.pie([mujeres, hombres, non_sex], autopct='%1.1f%%', startangle=90)
+
+    ax.set_title('Casos por sexo', fontsize=20)
+    ax.legend(wedges, sex_labels, loc='lower center', bbox_to_anchor=(0.9,0,0.5,0.5))
+
+    FigureCanvasAgg(fig).print_png('sexo.png')
+
+    return send_file(
+        'sexo.png'
+    )
+
+@app.route('/modo', methods=['GET'])
+def modo():
+
+    fig = Figure(figsize=(8, 6))
+
+    ax = fig.add_subplot(1, 1, 1)
+
+    wedges, _, _  = ax.pie(modos_values, autopct='%1.1f%%', startangle=90)
+
+    ax.set_title('Casos por modo de contagio', fontsize=20)
+    ax.legend(wedges, modos_labels, loc='lower center', bbox_to_anchor=(0.9,0,0.5,0.5))
+
+    FigureCanvasAgg(fig).print_png('modo.png')
+
+    return send_file(
+        'modo.png'
     )
 
 if __name__ == '__main__':
