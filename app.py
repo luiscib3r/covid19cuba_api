@@ -77,6 +77,9 @@ total_activos = total_diagnosticados - (total_recuperados + total_evacuados + to
 last_day = [k for k in data['casos']['dias'].keys()][-1]
 fecha = data['casos']['dias'][last_day]['fecha']
 
+# Ingresados
+total_ingresados = data['casos']['dias'][last_day]['sujetos_riesgo']
+
 # Casos por sexo
 sex_labels = 'Mujeres', 'Hombres', 'No reportado'
 hombres = 0
@@ -193,8 +196,44 @@ def resume():
         'Recuperados': total_recuperados,
         'Evacuados': total_evacuados,
         'Muertes': total_muertes,
+        'Ingresados': total_ingresados,
         'Updated': fecha
     })
+
+@app.route('/summary_graph1', methods=['GET'])
+def summary_graph1():
+    fig = Figure(figsize=(8, 6))
+
+    ax = fig.add_subplot(1, 1, 1)
+
+    wedges, _, _  = ax.pie([total_diagnosticados, total_recuperados, total_evacuados, total_muertes], autopct='%1.1f%%', startangle=90)
+    ax.legend(wedges, ['Diagnosticados', 'Recuperados', 'Evacuados', 'Fallecidos'], loc='lower center', bbox_to_anchor=(0.9,0,0.5,1))
+
+    ax.set_title('Resumen', fontsize=20)
+
+    FigureCanvasAgg(fig).print_png('summary1.png')
+
+    return send_file(
+        'summary1.png'
+    )
+
+@app.route('/summary_graph2', methods=['GET'])
+def summary_graph2():
+    fig = Figure(figsize=(8, 6))
+
+    ax = fig.add_subplot(1, 1, 1)
+
+    wedges, _, _  = ax.pie([total_ingresados, total_activos], autopct='%1.1f%%', startangle=90)
+    ax.legend(wedges, ['Ingresados', 'Activos'], loc='lower center', bbox_to_anchor=(0.9,0,0.5,1))
+
+    ax.set_title('Activos | Ingresados', fontsize=20)
+
+    FigureCanvasAgg(fig).print_png('summary2.png')
+
+    return send_file(
+        'summary2.png'
+    )
+
 
 import base64
 
