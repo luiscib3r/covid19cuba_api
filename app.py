@@ -165,6 +165,16 @@ for i, c in enumerate(cant_tests):
     detected_acc.append(sum(diagnosticados[:11+i]))
     prop_test_vs_detected.append(round(detected_acc[-1] / c, 2)*100)
 
+# Casos detectados por provincias
+locations = defaultdict(int)
+
+for k in range(1, len(data['casos']['dias'].keys())+1):
+    try:
+        for caso in data['casos']['dias'][str(k)]['diagnosticados']:
+            locations[caso['provincia_detección']] += 1
+    except:
+        pass
+
 # Setting api
 app = Flask(__name__)
 CORS(app)
@@ -358,6 +368,29 @@ def test_text():
         'cant_tests': cant_tests,
         'detected_acc': detected_acc,
         'prop': prop_test_vs_detected,
+    })
+
+@app.route('/provincias', methods=['GET'])
+def provincia():
+    fig = Figure(figsize=(10, 6))
+
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.barh([str(l) for l in locations], [locations[l] for l in locations], color='orange')
+
+    ax.set_title('Casos detectados por provincias',fontsize = 20)
+
+    FigureCanvasAgg(fig).print_png('provincias.png')
+
+    return send_file(
+        'provincias.png'
+    )
+
+@app.route('/provincias_text', methods=['GET'])
+def provincia_text():
+    return jsonify({
+        'provincias': [str(l) for l in locations],
+        'cantidad_casos': [locations[l] for l in locations]
     })
 
 if __name__ == '__main__':
