@@ -108,6 +108,63 @@ for k in range(1, len(data['casos']['dias'].keys())+1):
 modos_labels = [str(k) for k in modos.keys()]
 modos_values = [v for v in modos.values()]
 
+# Casos extranjeros
+paises = defaultdict(int)
+
+for k in range(1, len(data['casos']['dias'].keys())+1):
+    try:
+        for caso in data['casos']['dias'][str(k)]['diagnosticados']:
+            if caso['pais'] != 'cu':
+                paises[caso['pais']] += 1
+    except:
+        pass
+
+# Casos por nacionalidad
+cubanos = 0
+extranjeros = 0
+
+for k in range(1, len(data['casos']['dias'].keys())+1):
+    try:
+        for caso in data['casos']['dias'][str(k)]['diagnosticados']:
+            if caso['pais'] == 'cu':
+                cubanos += 1
+            else:
+                extranjeros += 1
+    except:
+        pass
+
+# Distribución por rangos etarios
+edades = {'0-18': 0, '19-40': 0, '41-60': 0, '+60': 0}
+
+for k in range(1, len(data['casos']['dias'].keys())+1):
+    try:
+        for caso in data['casos']['dias'][str(k)]['diagnosticados']:
+            edad = caso['edad']
+            
+            if edad <= 18 :
+                edades['0-18'] += 1
+            elif edad >= 19 and edad <= 40:
+                edades['19-40'] += 1
+            elif edad >= 41 and edad <= 60:
+                edades['41-60'] += 1
+            else:
+                edades['+60'] += 1
+    except:
+        pass
+
+# Test realizados y acumulados
+cant_tests = []
+
+for k in range(12, len(data['casos']['dias'].keys())+1):
+    cant_tests.append(data['casos']['dias'][str(k)]['tests_total'])
+
+prop_test_vs_detected = []
+detected_acc = []
+
+for i, c in enumerate(cant_tests):
+    detected_acc.append(sum(diagnosticados[:11+i]))
+    prop_test_vs_detected.append(round(detected_acc[-1] / c, 2)*100)
+
 # Setting api
 app = Flask(__name__)
 CORS(app)
@@ -137,7 +194,7 @@ def evolution():
 
     ax = fig.add_subplot(1, 1, 1)
 
-    ax.plot([str(i) for i in range(1,len(diagnosticados)+1)], diagnosticados_acc, label='Casos acumulados')
+    ax.plot([str(i) for i in range(1,len(diagnosticados_acc)+1)], diagnosticados_acc, label='Casos acumulados')
     ax.plot([str(i) for i in range(1,len(diagnosticados)+1)], diagnosticados, label='Casos en el día')
 
     ax.set_title('Evolución de casos por días', fontsize=20)
@@ -148,6 +205,13 @@ def evolution():
     return send_file(
         'evolution.png'
     )
+
+@app.route('/evolution_text', methods=['GET'])
+def evolution_text():
+    return jsonify({
+        'diagnosticados': diagnosticados,
+        'diagnosticados_acc': diagnosticados_acc,
+    })
 
 @app.route('/sexo', methods=['GET'])
 def sexo():
@@ -167,6 +231,14 @@ def sexo():
         'sexo.png'
     )
 
+@app.route('/sexo_text', methods=['GET'])
+def sexo_text():
+    return jsonify({
+        'mujeres': mujeres,
+        'hombres': hombres,
+        'no determinado': non_sex
+    })
+
 @app.route('/modo', methods=['GET'])
 def modo():
 
@@ -184,6 +256,109 @@ def modo():
     return send_file(
         'modo.png'
     )
+
+@app.route('/modo_text', methods=['GET'])
+def modo_text():
+    
+    return jsonify({
+        'labels': modos_labels,
+        'values': modos_values,
+    })
+
+@app.route('/casos_extranjeros', methods=['GET'])
+def casos_extranjeros():
+    fig = Figure(figsize=(8, 6))
+
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.bar([str(k) for k in paises.keys()], [v for v in paises.values()])
+
+    ax.set_title('Distribución por nacionalidad casos extranjeros', fontsize=20)
+
+    FigureCanvasAgg(fig).print_png('paises.png')
+
+    return send_file(
+        'paises.png'
+    )
+
+@app.route('/casos_extranjeros_text', methods=['GET'])
+def casos_extranjeros_text():
+    return jsonify(dict(paises))
+
+@app.route('/nacionalidad', methods=['GET'])
+def nacionalidad():
+    fig = Figure(figsize=(8, 6))
+
+    ax = fig.add_subplot(1, 1, 1)
+
+    wedges, _, _  = ax.pie([cubanos, extranjeros], autopct='%1.1f%%', startangle=90)
+    ax.legend(wedges, ['Cubanos', 'Extranjeros'], loc='lower center', bbox_to_anchor=(0.9,0,0.5,1))
+
+    ax.set_title('Casos por nacionalidad', fontsize=20)
+
+    FigureCanvasAgg(fig).print_png('nacionalidad.png')
+
+    return send_file(
+        'nacionalidad.png'
+    )
+
+@app.route('/nacionalidad_text', methods=['GET'])
+def nacionalidad_text():
+    return jsonify({
+        'Cubanos': cubanos,
+        'Extranjeros': extranjeros,
+    })
+
+@app.route('/edad', methods=['GET'])
+def edad():
+    fig = Figure(figsize=(8, 6))
+
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.bar([str(k) for k in edades.keys()], [v for v in edades.values()])
+
+    ax.set_title('Distribución por rangos etarios', fontsize=20)
+
+    FigureCanvasAgg(fig).print_png('edades.png')
+
+    return send_file(
+        'edades.png'
+    )
+
+@app.route('/edad_text', methods=['GET'])
+def edad_text():
+    return jsonify(edades)
+
+@app.route('/test', methods=['GET'])
+def test():
+    fig = Figure(figsize=(15, 6))
+
+    (ax1, ax2) = fig.subplots(1, 2)
+
+    # Test realizados
+    ax1.bar([str(k) for k in range(12, len(data['casos']['dias'].keys())+1)], cant_tests)
+    ax1.bar([str(k) for k in range(12, len(data['casos']['dias'].keys())+1)], detected_acc)
+
+    ax1.set_title('Tests acumulados por día')
+
+    # Proporción entre casos confirmados y test realizados
+    ax2.bar([str(k) for k in range(12, len(data['casos']['dias'].keys())+1)], prop_test_vs_detected) 
+
+    ax2.set_title('Proporción detectados/tests realizados')
+
+    FigureCanvasAgg(fig).print_png('tests.png')
+
+    return send_file(
+        'tests.png'
+    )
+
+@app.route('/test_text', methods=['GET'])
+def test_text():
+    return jsonify({
+        'cant_tests': cant_tests,
+        'detected_acc': detected_acc,
+        'prop': prop_test_vs_detected,
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)
