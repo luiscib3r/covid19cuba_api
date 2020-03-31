@@ -218,12 +218,19 @@ def resume():
 
 @app.route('/summary_graph1', methods=['GET'])
 def summary_graph1():
-    fig = Figure(figsize=(8, 6))
+    fig = Figure(figsize=(9, 6))
 
     ax = fig.add_subplot(1, 1, 1)
 
+    total = total_diagnosticados + total_recuperados + total_evacuados + total_muertes
+
     wedges, _, _  = ax.pie([total_diagnosticados, total_recuperados, total_evacuados, total_muertes], autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95))
-    ax.legend(wedges, ['Diagnosticados', 'Recuperados', 'Evacuados', 'Fallecidos'], loc='lower center', bbox_to_anchor=(0.9,0,0.5,1))
+    ax.legend(wedges, [
+        'Diagnosticados ' + str(round(total_diagnosticados/total*100, 1)) + '%',
+        'Recuperados ' + str(round(total_recuperados/total*100, 1)) + '%', 
+        'Evacuados ' + str(round(total_evacuados/total*100, 1)) + '%', 
+        'Fallecidos ' + str(round(total_muertes/total*100, 1)) + '%',
+    ], loc='lower center', bbox_to_anchor=(0.9,0,0.5,1))
 
     ax.set_title('Resumen', fontsize=20)
 
@@ -235,12 +242,17 @@ def summary_graph1():
 
 @app.route('/summary_graph2', methods=['GET'])
 def summary_graph2():
-    fig = Figure(figsize=(8, 6))
+    fig = Figure(figsize=(9, 6))
 
     ax = fig.add_subplot(1, 1, 1)
 
+    total = total_ingresados + total_activos
+
     wedges, _, _  = ax.pie([total_ingresados, total_activos], autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95))
-    ax.legend(wedges, ['Ingresados', 'Activos'], loc='lower center', bbox_to_anchor=(0.9,0,0.5,1))
+    ax.legend(wedges, [
+        'Ingresados ' + str(round(total_ingresados/total*100, 1)) + '%', 
+        'Activos ' + str(round(total_activos/total*100, 1)) + '%',
+    ], loc='lower center', bbox_to_anchor=(0.9,0,0.5,1))
 
     ax.set_title('Activos | Ingresados', fontsize=20)
 
