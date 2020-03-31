@@ -178,6 +178,8 @@ for k in range(1, len(data['casos']['dias'].keys())+1):
     except:
         pass
 
+locations = sorted(dict(locations).items(), key=lambda kv: kv[1])
+
 # Setting api
 app = Flask(__name__)
 CORS(app)
@@ -415,7 +417,7 @@ def provincia():
 
     ax = fig.add_subplot(1, 1, 1)
 
-    ax.barh([str(l) for l in locations], [locations[l] for l in locations], color='orange')
+    ax.barh([str(l[0]) for l in locations], [l[1] for l in locations], color='orange')
 
     ax.set_title('Casos detectados por provincias',fontsize = 20)
 
@@ -428,8 +430,7 @@ def provincia():
 @app.route('/provincias_text', methods=['GET'])
 def provincia_text():
     return jsonify({
-        'provincias': [str(l) for l in locations],
-        'cantidad_casos': [locations[l] for l in locations]
+        'provincias': locations,
     })
 
 if __name__ == '__main__':
