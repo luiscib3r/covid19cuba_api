@@ -222,7 +222,7 @@ def summary_graph1():
 
     ax = fig.add_subplot(1, 1, 1)
 
-    wedges, _, _  = ax.pie([total_diagnosticados, total_recuperados, total_evacuados, total_muertes], autopct='%1.1f%%', startangle=90)
+    wedges, _, _  = ax.pie([total_diagnosticados, total_recuperados, total_evacuados, total_muertes], autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95))
     ax.legend(wedges, ['Diagnosticados', 'Recuperados', 'Evacuados', 'Fallecidos'], loc='lower center', bbox_to_anchor=(0.9,0,0.5,1))
 
     ax.set_title('Resumen', fontsize=20)
@@ -239,7 +239,7 @@ def summary_graph2():
 
     ax = fig.add_subplot(1, 1, 1)
 
-    wedges, _, _  = ax.pie([total_ingresados, total_activos], autopct='%1.1f%%', startangle=90)
+    wedges, _, _  = ax.pie([total_ingresados, total_activos], autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95))
     ax.legend(wedges, ['Ingresados', 'Activos'], loc='lower center', bbox_to_anchor=(0.9,0,0.5,1))
 
     ax.set_title('Activos | Ingresados', fontsize=20)
@@ -285,7 +285,7 @@ def sexo():
 
     ax = fig.add_subplot(1, 1, 1)
 
-    wedges, _, _  = ax.pie([mujeres, hombres, non_sex], autopct='%1.1f%%', startangle=90)
+    wedges, _, _  = ax.pie([mujeres, hombres, non_sex], autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95))
 
     ax.set_title('Casos por sexo', fontsize=20)
     ax.legend(wedges, sex_labels, loc='lower center', bbox_to_anchor=(0.9,0,0.5,0.5))
@@ -311,7 +311,7 @@ def modo():
 
     ax = fig.add_subplot(1, 1, 1)
 
-    wedges, _, _  = ax.pie(modos_values, autopct='%1.1f%%', startangle=90)
+    wedges, _, _  = ax.pie(modos_values, autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95))
 
     ax.set_title('Casos por modo de contagio', fontsize=20)
     ax.legend(wedges, modos_labels, loc='lower center', bbox_to_anchor=(0.9,0,0.5,0.5))
@@ -356,7 +356,7 @@ def nacionalidad():
 
     ax = fig.add_subplot(1, 1, 1)
 
-    wedges, _, _  = ax.pie([cubanos, extranjeros], autopct='%1.1f%%', startangle=90)
+    wedges, _, _  = ax.pie([cubanos, extranjeros], autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95))
     ax.legend(wedges, ['Cubanos', 'Extranjeros'], loc='lower center', bbox_to_anchor=(0.9,0,0.5,1))
 
     ax.set_title('Casos por nacionalidad', fontsize=20)
