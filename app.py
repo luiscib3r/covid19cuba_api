@@ -413,7 +413,7 @@ def test_text():
 
 @app.route('/provincias', methods=['GET'])
 def provincia():
-    fig = Figure(figsize=(10, 6))
+    fig = Figure(figsize=(15, 6))
 
     ax = fig.add_subplot(1, 1, 1)
 
