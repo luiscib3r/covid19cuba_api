@@ -58,6 +58,12 @@ for k in range(1, len(data['casos']['dias'].keys())+1):
     except: 
         muertes.append(0)
 
+# Fallecidos acumulados
+muertes_acc = []
+
+for i, _ in enumerate(muertes):
+    muertes_acc.append(sum(muertes[:i+1]))
+
 # Total diagnosticados
 total_diagnosticados = sum(diagnosticados)
 
@@ -290,11 +296,31 @@ def evolution():
         'evolution.png'
     )
 
+@app.route('/evolution_fallecidos', methods=['GET'])
+def evolution_fallecidos():
+    fig = Figure(figsize=(10, 6))
+
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.plot([str(i) for i in range(1,len(muertes_acc)+1)], muertes_acc, label='Casos acumulados')
+    ax.plot([str(i) for i in range(1,len(muertes)+1)], muertes, label='Casos en el día')
+
+    ax.set_title('Evolución de casos por días (Fallecidos)', fontsize=15)
+    fig.legend(frameon=True, fontsize=12)
+
+    FigureCanvasAgg(fig).print_png('fallecidos.png')
+
+    return send_file(
+        'fallecidos.png'
+    )
+
 @app.route('/evolution_text', methods=['GET'])
 def evolution_text():
     return jsonify({
         'diagnosticados': diagnosticados,
         'diagnosticados_acc': diagnosticados_acc,
+        'fallecidos': muertes,
+        'fallecidos_acc': muertes_acc
     })
 
 @app.route('/sexo', methods=['GET'])
