@@ -180,6 +180,20 @@ for k in range(1, len(data['casos']['dias'].keys())+1):
 
 locations = sorted(dict(locations).items(), key=lambda kv: kv[1])
 
+# Casos detectados por municipios
+mlocations = defaultdict(int)
+
+for k in range(1, len(data['casos']['dias'].keys())+1):
+    try:
+        for caso in data['casos']['dias'][str(k)]['diagnosticados']:
+            mlocations[caso['municipio_detección']] += 1
+    except:
+        pass
+    
+mlocations = sorted(dict(mlocations).items(), key=lambda kv: kv[1])
+
+municipios_top10 = mlocations[-10:]
+
 # Setting api
 app = Flask(__name__)
 CORS(app)
@@ -427,10 +441,32 @@ def provincia():
         'provincias.png'
     )
 
+@app.route('/municipios', methods=['GET'])
+def municipio():
+    fig = Figure(figsize=(15, 6))
+
+    ax = fig.add_subplot(1, 1, 1)
+
+    ax.barh([str(l[0]) for l in municipios_top10], [l[1] for l in municipios_top10], color='orange')
+
+    ax.set_title('Casos detectados por municipios (Top 10)',fontsize = 20)
+
+    FigureCanvasAgg(fig).print_png('municipios.png')
+
+    return send_file(
+        'municipios.png'
+    )
+
 @app.route('/provincias_text', methods=['GET'])
 def provincia_text():
     return jsonify({
         'provincias': locations,
+    })
+
+@app.route('/municipios_text', methods=['GET'])
+def municipio_text():
+    return jsonify({
+        'municipios': mlocations,
     })
 
 if __name__ == '__main__':
