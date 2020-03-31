@@ -186,9 +186,16 @@ mlocations = defaultdict(int)
 for k in range(1, len(data['casos']['dias'].keys())+1):
     try:
         for caso in data['casos']['dias'][str(k)]['diagnosticados']:
-            mlocations[caso['municipio_detección']] += 1
+            mun = caso['municipio_detección']
+            prov = caso['provincia_detección']
+            
+            mkey = mun + '\n' + '('+prov+')'
+
+            mlocations[mkey] += 1
     except:
         pass
+
+
     
 mlocations = sorted(dict(mlocations).items(), key=lambda kv: kv[1])
 
