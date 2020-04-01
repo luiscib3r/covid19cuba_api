@@ -4,3 +4,4 @@ flask-cors
 matplotlib
 seaborn
 pymongo
+dnspython
