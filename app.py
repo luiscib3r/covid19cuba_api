@@ -27,9 +27,16 @@ def index():
 
 @app.route('/summary', methods=['GET'])
 def resume():
+    increment = data.diagnosticados[-1] - data.diagnosticados[-2]
+
+    if increment > 0:
+        increment = '+{}'.format(str(increment))
+    else:
+        increment = str(increment)
+
     return jsonify({
         'Diagnosticados': data.total_diagnosticados,
-        'DiagnosticadosDay': str(data.diagnosticados[-1]) + ' ({})'.format(str(data.diagnosticados[-1] - data.diagnosticados[-2])),
+        'DiagnosticadosDay': str(data.diagnosticados[-1]) + ' ({})'.format(increment),
         'Activos': data.total_activos,
         'Recuperados': data.total_recuperados,
         'Recuperacion': round(data.total_recuperados * 100 / data.total_activos, 1),
