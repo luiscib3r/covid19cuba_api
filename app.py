@@ -34,6 +34,7 @@ def resume():
         'Evacuados': data.total_evacuados,
         'Muertes': data.total_muertes,
         'Ingresados': data.total_ingresados,
+        'Mortalidad': round(data.total_muertes * 100 / data.total_diagnosticados, 1),
         'Updated': data.fecha
     })
 
