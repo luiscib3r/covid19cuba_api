@@ -1,7 +1,6 @@
 import mdb
 
 from collections import defaultdict
-import requests
 import config
 
 class DataModel:
@@ -253,6 +252,5 @@ def updater(datamodel: DataModel):
     info['cant_days'] = len(data['casos']['dias'].keys())
 
     datamodel.update(info)
-    requests.get(config.BOT_URI)
 
 ### END UPDATE FUNCTION

@@ -5,4 +5,3 @@ matplotlib
 seaborn
 pymongo
 dnspython
-requests
