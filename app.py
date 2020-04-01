@@ -31,6 +31,7 @@ def resume():
         'Diagnosticados': data.total_diagnosticados,
         'Activos': data.total_activos,
         'Recuperados': data.total_recuperados,
+        'Recuperacion': data.total_recuperados * 100 / data.total_activos,
         'Evacuados': data.total_evacuados,
         'Muertes': data.total_muertes,
         'Ingresados': data.total_ingresados,
