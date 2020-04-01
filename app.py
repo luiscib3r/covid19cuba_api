@@ -29,6 +29,7 @@ def index():
 def resume():
     return jsonify({
         'Diagnosticados': data.total_diagnosticados,
+        'DiagnosticadosDay': str(data.diagnosticados[-1]) + ' ({})'.format(str(data.diagnosticados[-1] - data.diagnosticados[-2])),
         'Activos': data.total_activos,
         'Recuperados': data.total_recuperados,
         'Recuperacion': round(data.total_recuperados * 100 / data.total_activos, 1),
