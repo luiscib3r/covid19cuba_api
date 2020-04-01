@@ -11,8 +11,8 @@ from matplotlib.figure import Figure
 from collections import defaultdict
 
 # Load data
-import json
-data = json.load(open('covid19-cuba.json'))
+import mdb
+data = mdb.getdata()
 
 # Getting DATA
 

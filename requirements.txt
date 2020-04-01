@@ -3,3 +3,4 @@ flask
 flask-cors
 matplotlib
 seaborn
+pymongo
