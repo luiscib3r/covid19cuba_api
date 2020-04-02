@@ -361,13 +361,13 @@ def provincia():
 
     
     for i, v in enumerate(data.locations):
-        label = "{}".format(v[1])
+        label = "{} ({}%)".format(v[1], round(v[1]*100/data.total_diagnosticados, 2))
 
         ax.annotate(label,
                      (v[1],i),
                       textcoords='offset points',
-                      xytext=(8,-3),
-                      ha='center')    
+                      xytext=(2,-3),
+                      ha='left')    
 
     ax.set_title('Casos detectados por provincias',fontsize = 20)
 
@@ -386,13 +386,13 @@ def municipio():
     ax.barh([str(l[0]) for l in data.municipios_top10], [l[1] for l in data.municipios_top10], color='orange')
 
     for i, v in enumerate(data.municipios_top10):
-        label = "{}".format(v[1])
+        label = "{} ({}%)".format(v[1], round(v[1]*100/data.total_diagnosticados, 2))
 
         ax.annotate(label,
                      (v[1],i),
                       textcoords='offset points',
-                      xytext=(8,-3),
-                      ha='center') 
+                      xytext=(2,-3),
+                      ha='left') 
 
     ax.set_title('Casos detectados por municipios (Top 10)',fontsize = 20)
 
