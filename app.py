@@ -30,9 +30,9 @@ def resume():
     increment = data.diagnosticados[-1] - data.diagnosticados[-2]
 
     if increment > 0:
-        increment = '+{}'.format(str(increment))
+        increment = '🔺{}'.format(str(increment))
     else:
-        increment = str(increment)
+        increment = '🔻{}'.format(str(increment*-1))
 
     return jsonify({
         'Diagnosticados': data.total_diagnosticados,
