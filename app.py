@@ -25,6 +25,8 @@ def index():
         'message': 'COVID19 Cuba Data API',
     })
 
+
+
 @app.route('/summary', methods=['GET'])
 def resume():
     increment = data.diagnosticados[-1] - data.diagnosticados[-2]
