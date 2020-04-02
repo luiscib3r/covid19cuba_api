@@ -414,9 +414,16 @@ def municipio_text():
         'municipios': data.mlocations,
     })
 
+import time
+import config
+import requests
+
 @app.route('/reload', methods=['GET'])
 def reload():
     datamodel.updater(data)
+
+    time.sleep(15)
+    requests.get(config.BOT_URI)
 
     return jsonify({
         'message': 'Updated Data'
