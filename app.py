@@ -98,12 +98,33 @@ import base64
 
 @app.route('/evolution', methods=['GET'])
 def evolution():
-    fig = Figure(figsize=(10, 6))
+    fig = Figure(figsize=(12, 7))
 
     ax = fig.add_subplot(1, 1, 1)
 
-    ax.plot([str(i) for i in range(1,len(data.diagnosticados_acc)+1)], data.diagnosticados_acc, label='Casos acumulados')
-    ax.plot([str(i) for i in range(1,len(data.diagnosticados)+1)], data.diagnosticados, label='Casos en el día')
+    xss = [str(i) for i in range(1,len(data.diagnosticados_acc)+1)]
+    xs = range(0,len(data.diagnosticados_acc))
+
+    ax.plot(xss, data.diagnosticados_acc, 'o-', label='Casos acumulados')
+    ax.plot(xss, data.diagnosticados, 'o-', label='Casos en el día')
+
+    for x, y in zip(xs, data.diagnosticados_acc):
+        label = "{}".format(y)
+
+        ax.annotate(label,
+                     (x,y),
+                      textcoords='offset points',
+                      xytext=(0,10),
+                      ha='center')
+
+    for x, y in zip(xs, data.diagnosticados):
+        label = "{}".format(y)
+
+        ax.annotate(label,
+                     (x,y),
+                      textcoords='offset points',
+                      xytext=(0,-17),
+                      ha='center')
 
     ax.set_title('Evolución de casos por días', fontsize=20)
     fig.legend(frameon=True, fontsize=12)
@@ -116,12 +137,33 @@ def evolution():
 
 @app.route('/evolution_fallecidos', methods=['GET'])
 def evolution_fallecidos():
-    fig = Figure(figsize=(10, 6))
+    fig = Figure(figsize=(12, 7))
 
     ax = fig.add_subplot(1, 1, 1)
 
-    ax.plot([str(i) for i in range(1,len(data.muertes_acc)+1)], data.muertes_acc, label='Casos acumulados')
-    ax.plot([str(i) for i in range(1,len(data.muertes)+1)], data.muertes, label='Casos en el día')
+    xss = [str(i) for i in range(1,len(data.muertes_acc)+1)]
+    xs = range(0,len(data.muertes_acc))
+
+    ax.plot(xss, data.muertes_acc, 'o-',label='Casos acumulados')
+    ax.plot(xss, data.muertes, 'o-',label='Casos en el día')
+
+    for x, y in zip(xs, data.muertes_acc):
+        label = "{}".format(y)
+
+        ax.annotate(label,
+                     (x,y),
+                      textcoords='offset points',
+                      xytext=(0,10),
+                      ha='center')
+
+    for x, y in zip(xs, data.muertes):
+        label = "{}".format(y)
+
+        ax.annotate(label,
+                     (x,y),
+                      textcoords='offset points',
+                      xytext=(0,-15),
+                      ha='center')
 
     ax.set_title('Evolución de casos por días (Fallecidos)', fontsize=15)
     fig.legend(frameon=True, fontsize=12)
@@ -245,6 +287,15 @@ def edad():
 
     ax.bar([str(k) for k in data.edades.keys()], [v for v in data.edades.values()])
 
+    for x, y in enumerate(data.edades.values()):
+        label = "{}".format(y)
+
+        ax.annotate(label,
+                     (x,y),
+                      textcoords='offset points',
+                      xytext=(0,4),
+                      ha='center')
+
     ax.set_title('Distribución por rangos etarios', fontsize=20)
 
     FigureCanvasAgg(fig).print_png('edades.png')
@@ -264,8 +315,20 @@ def test():
     (ax1, ax2) = fig.subplots(1, 2)
 
     # Test realizados
-    ax1.bar([str(k) for k in range(12, data.cant_days+1)], data.cant_tests)
-    ax1.bar([str(k) for k in range(12, data.cant_days+1)], data.detected_acc)
+    xss = [str(k) for k in range(12, data.cant_days+1)]
+    xs = range(0, data.cant_days+1 - 12)
+
+    ax1.bar(xss, data.cant_tests)
+    ax1.bar(xss, data.detected_acc)
+
+    for x, y in zip(xs, data.cant_tests):
+        label = "{}".format(y)
+
+        ax1.annotate(label,
+                     (x,y),
+                      textcoords='offset points',
+                      xytext=(0,4),
+                      ha='center')
 
     ax1.set_title('Tests acumulados por día')
 
@@ -296,6 +359,16 @@ def provincia():
 
     ax.barh([str(l[0]) for l in data.locations], [l[1] for l in data.locations], color='orange')
 
+    
+    for i, v in enumerate(data.locations):
+        label = "{}".format(v[1])
+
+        ax.annotate(label,
+                     (v[1],i),
+                      textcoords='offset points',
+                      xytext=(8,-3),
+                      ha='center')    
+
     ax.set_title('Casos detectados por provincias',fontsize = 20)
 
     FigureCanvasAgg(fig).print_png('provincias.png')
@@ -311,6 +384,15 @@ def municipio():
     ax = fig.add_subplot(1, 1, 1)
 
     ax.barh([str(l[0]) for l in data.municipios_top10], [l[1] for l in data.municipios_top10], color='orange')
+
+    for i, v in enumerate(data.municipios_top10):
+        label = "{}".format(v[1])
+
+        ax.annotate(label,
+                     (v[1],i),
+                      textcoords='offset points',
+                      xytext=(8,-3),
+                      ha='center') 
 
     ax.set_title('Casos detectados por municipios (Top 10)',fontsize = 20)
 
