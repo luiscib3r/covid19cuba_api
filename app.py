@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, send_file
+from flask import Flask, jsonify, send_file, request
 from flask_cors import CORS
 
 # Graphics
@@ -420,12 +420,20 @@ import time
 import config
 import requests
 
-@app.route('/reload', methods=['GET'])
+@app.route('/reload', methods=['POST'])
 def reload():
+    data = request.get_json()
+
+    if data['token'] != config.TOKEN:
+        return jsonify({
+            'message': 'updated data'
+        })
+
     datamodel.updater(data)
 
     time.sleep(15)
-    requests.get(config.BOT_URI)
+    token = {'token': config.TOKEN}
+    requests.post(config.BOT_URI, json=token)
 
     return jsonify({
         'message': 'Updated Data'
