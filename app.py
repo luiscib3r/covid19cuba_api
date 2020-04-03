@@ -420,6 +420,13 @@ import time
 import config
 import requests
 
+from subprocess import call
+
+from multiprocessing import Pool
+
+def restart():
+    call('./restart.sh')
+
 @app.route('/reload', methods=['POST'])
 def reload():
     data = request.get_json()
@@ -434,6 +441,8 @@ def reload():
     time.sleep(15)
     token = {'token': config.TOKEN}
     requests.post(config.BOT_URI, json=token)
+
+    Pool().apply_async(restart)
 
     return jsonify({
         'message': 'Updated Data'
