@@ -13,8 +13,6 @@ import datamodel
 
 data = datamodel.DataModel()
 
-datamodel.updater(data) # Call to update
-
 # Setting api
 app = Flask(__name__)
 CORS(app)
@@ -29,6 +27,8 @@ def index():
 
 @app.route('/summary', methods=['GET'])
 def resume():
+    datamodel.updater(data) # Call to update
+
     increment = data.diagnosticados[-1] - data.diagnosticados[-2]
 
     if increment > 0:
@@ -51,6 +51,8 @@ def resume():
 
 @app.route('/summary_graph1', methods=['GET'])
 def summary_graph1():
+    datamodel.updater(data) # Call to update
+
     fig = Figure(figsize=(9, 6))
 
     ax = fig.add_subplot(1, 1, 1)
@@ -75,6 +77,8 @@ def summary_graph1():
 
 @app.route('/summary_graph2', methods=['GET'])
 def summary_graph2():
+    datamodel.updater(data) # Call to update
+
     fig = Figure(figsize=(9, 6))
 
     ax = fig.add_subplot(1, 1, 1)
@@ -100,6 +104,8 @@ import base64
 
 @app.route('/evolution', methods=['GET'])
 def evolution():
+    datamodel.updater(data) # Call to update
+
     fig = Figure(figsize=(12, 7))
 
     ax = fig.add_subplot(1, 1, 1)
@@ -139,6 +145,8 @@ def evolution():
 
 @app.route('/evolution_fallecidos', methods=['GET'])
 def evolution_fallecidos():
+    datamodel.updater(data) # Call to update
+
     fig = Figure(figsize=(12, 7))
 
     ax = fig.add_subplot(1, 1, 1)
@@ -178,6 +186,8 @@ def evolution_fallecidos():
 
 @app.route('/evolution_text', methods=['GET'])
 def evolution_text():
+    datamodel.updater(data) # Call to update
+
     return jsonify({
         'diagnosticados': data.diagnosticados,
         'diagnosticados_acc': data.diagnosticados_acc,
@@ -187,6 +197,7 @@ def evolution_text():
 
 @app.route('/sexo', methods=['GET'])
 def sexo():
+    datamodel.updater(data) # Call to update
 
     fig = Figure(figsize=(8, 6))
 
@@ -205,6 +216,8 @@ def sexo():
 
 @app.route('/sexo_text', methods=['GET'])
 def sexo_text():
+    datamodel.updater(data) # Call to update
+
     return jsonify({
         'mujeres': data.mujeres,
         'hombres': data.hombres,
@@ -213,6 +226,7 @@ def sexo_text():
 
 @app.route('/modo', methods=['GET'])
 def modo():
+    datamodel.updater(data) # Call to update
 
     fig = Figure(figsize=(8, 6))
 
@@ -231,6 +245,7 @@ def modo():
 
 @app.route('/modo_text', methods=['GET'])
 def modo_text():
+    datamodel.updater(data) # Call to update
     
     return jsonify({
         'labels': data.modos_labels,
@@ -239,6 +254,8 @@ def modo_text():
 
 @app.route('/casos_extranjeros', methods=['GET'])
 def casos_extranjeros():
+    datamodel.updater(data) # Call to update
+
     fig = Figure(figsize=(8, 6))
 
     ax = fig.add_subplot(1, 1, 1)
@@ -255,10 +272,14 @@ def casos_extranjeros():
 
 @app.route('/casos_extranjeros_text', methods=['GET'])
 def casos_extranjeros_text():
+    datamodel.updater(data) # Call to update
+
     return jsonify(dict(data.paises))
 
 @app.route('/nacionalidad', methods=['GET'])
 def nacionalidad():
+    datamodel.updater(data) # Call to update
+
     fig = Figure(figsize=(8, 6))
 
     ax = fig.add_subplot(1, 1, 1)
@@ -276,6 +297,8 @@ def nacionalidad():
 
 @app.route('/nacionalidad_text', methods=['GET'])
 def nacionalidad_text():
+    datamodel.updater(data) # Call to update
+
     return jsonify({
         'Cubanos': data.cubanos,
         'Extranjeros': data.extranjeros,
@@ -283,6 +306,8 @@ def nacionalidad_text():
 
 @app.route('/edad', methods=['GET'])
 def edad():
+    datamodel.updater(data) # Call to update
+
     fig = Figure(figsize=(8, 6))
 
     ax = fig.add_subplot(1, 1, 1)
@@ -308,10 +333,14 @@ def edad():
 
 @app.route('/edad_text', methods=['GET'])
 def edad_text():
+    datamodel.updater(data) # Call to update
+
     return jsonify(data.edades)
 
 @app.route('/test', methods=['GET'])
 def test():
+    datamodel.updater(data) # Call to update
+
     fig = Figure(figsize=(15, 6))
 
     (ax1, ax2) = fig.subplots(1, 2)
@@ -347,6 +376,8 @@ def test():
 
 @app.route('/test_text', methods=['GET'])
 def test_text():
+    datamodel.updater(data) # Call to update
+
     return jsonify({
         'cant_tests': data.cant_tests,
         'detected_acc': data.detected_acc,
@@ -355,6 +386,8 @@ def test_text():
 
 @app.route('/provincias', methods=['GET'])
 def provincia():
+    datamodel.updater(data) # Call to update
+
     fig = Figure(figsize=(15, 6))
 
     ax = fig.add_subplot(1, 1, 1)
@@ -381,6 +414,8 @@ def provincia():
 
 @app.route('/municipios', methods=['GET'])
 def municipio():
+    datamodel.updater(data) # Call to update
+
     fig = Figure(figsize=(15, 6))
 
     ax = fig.add_subplot(1, 1, 1)
@@ -406,12 +441,16 @@ def municipio():
 
 @app.route('/provincias_text', methods=['GET'])
 def provincia_text():
+    datamodel.updater(data) # Call to update
+
     return jsonify({
         'provincias': data.locations,
     })
 
 @app.route('/municipios_text', methods=['GET'])
 def municipio_text():
+    datamodel.updater(data) # Call to update
+
     return jsonify({
         'municipios': data.mlocations,
     })
@@ -420,29 +459,28 @@ import time
 import config
 import requests
 
-from subprocess import call
+#from subprocess import call
 
-from multiprocessing import Pool
+#from multiprocessing import Pool
 
-def restart():
-    call('./restart.sh')
+#def restart():
+#    call('./restart.sh')
 
 @app.route('/reload', methods=['POST'])
 def reload():
-    data = request.get_json()
+    dat = request.get_json()
 
-    if data['token'] != config.TOKEN:
+    if dat['token'] != config.TOKEN:
         return jsonify({
             'message': 'updated data'
         })
 
     datamodel.updater(data)
 
-    time.sleep(15)
     token = {'token': config.TOKEN}
     requests.post(config.BOT_URI, json=token)
 
-    Pool().apply_async(restart)
+#    Pool().apply_async(restart)
 
     return jsonify({
         'message': 'Updated Data'
