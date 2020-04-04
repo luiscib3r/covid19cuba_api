@@ -398,7 +398,17 @@ def provincia():
 
     ax = fig.add_subplot(1, 1, 1)
 
-    ax.barh([str(l[0]) for l in data.locations], [l[1] for l in data.locations], color=red)
+    provs = []
+
+    for l in data.locations:
+        p = str(l[0])
+
+        if p != 'None':
+            provs.append(p)
+        else:
+            provs.append('Desconocido')
+
+    ax.barh(provs, [l[1] for l in data.locations], color=red)
 
     
     for i, v in enumerate(data.locations):
@@ -426,7 +436,17 @@ def municipio():
 
     ax = fig.add_subplot(1, 1, 1)
 
-    ax.barh([str(l[0]) for l in data.municipios_top10], [l[1] for l in data.municipios_top10], color=red)
+    muns = []
+
+    for l in data.municipios_top10:
+        p = str(l[0])
+
+        if p != 'None':
+            muns.append(p)
+        else:
+            muns.append('Desconocido')
+
+    ax.barh(muns, [l[1] for l in data.municipios_top10], color=red)
 
     for i, v in enumerate(data.municipios_top10):
         label = "{} ({}%)".format(v[1], round(v[1]*100/data.total_diagnosticados, 2))
