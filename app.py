@@ -399,19 +399,13 @@ def provincia():
     ax = fig.add_subplot(1, 1, 1)
 
     provs = []
-
-    for l in data.locations:
-        p = str(l[0])
-
-        if p != 'None':
-            provs.append(p)
+    
+    for i, v in enumerate(data.locations):
+        if v[0] != None:
+            provs.append(str(v[0]))
         else:
             provs.append('Desconocido')
 
-    ax.barh(provs, [l[1] for l in data.locations], color=red)
-
-    
-    for i, v in enumerate(data.locations):
         label = "{} ({}%)".format(v[1], round(v[1]*100/data.total_diagnosticados, 2))
 
         ax.annotate(label,
@@ -420,6 +414,8 @@ def provincia():
                       xytext=(2,-3),
                       ha='left')    
 
+    ax.barh(provs, [l[1] for l in data.locations], color=red)
+    
     ax.set_title('Casos detectados por provincias',fontsize = 20)
 
     FigureCanvasAgg(fig).print_png('provincias.png')
@@ -438,17 +434,12 @@ def municipio():
 
     muns = []
 
-    for l in data.municipios_top10:
-        p = str(l[0])
-
-        if p != 'None':
-            muns.append(p)
+    for i, v in enumerate(data.municipios_top10):
+        if v[0] != None:
+            muns.append(str(v[0]))
         else:
             muns.append('Desconocido')
 
-    ax.barh(muns, [l[1] for l in data.municipios_top10], color=red)
-
-    for i, v in enumerate(data.municipios_top10):
         label = "{} ({}%)".format(v[1], round(v[1]*100/data.total_diagnosticados, 2))
 
         ax.annotate(label,
@@ -456,6 +447,8 @@ def municipio():
                       textcoords='offset points',
                       xytext=(2,-3),
                       ha='left') 
+
+    ax.barh(muns, [l[1] for l in data.municipios_top10], color=red)
 
     ax.set_title('Casos detectados por municipios (Top 10)',fontsize = 20)
 
