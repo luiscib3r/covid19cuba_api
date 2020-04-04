@@ -105,9 +105,6 @@ def summary_graph2():
         'summary2.png'
     )
 
-
-import base64
-
 @app.route('/evolution', methods=['GET'])
 def evolution():
     datamodel.updater(data) # Call to update
@@ -479,16 +476,8 @@ def municipio_text():
         'municipios': data.mlocations,
     })
 
-import time
 import config
 import requests
-
-#from subprocess import call
-
-#from multiprocessing import Pool
-
-#def restart():
-#    call('./restart.sh')
 
 @app.route('/reload', methods=['POST'])
 def reload():
@@ -503,8 +492,6 @@ def reload():
 
     token = {'token': config.TOKEN}
     requests.post(config.BOT_URI, json=token)
-
-#    Pool().apply_async(restart)
 
     return jsonify({
         'message': 'Updated Data'
