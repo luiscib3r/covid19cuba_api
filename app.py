@@ -405,6 +405,8 @@ def provincia():
         else:
             provs.append('Desconocido')
 
+        provs_values.append(v[1])
+
         label = "{} ({}%)".format(v[1], round(v[1]*100/data.total_diagnosticados, 2))
 
         ax.annotate(label,
