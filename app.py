@@ -8,6 +8,12 @@ sns.set_style('darkgrid')
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib.figure import Figure
 
+### COLOR
+red = '#f44336'
+blue = '#2196f3'
+yellow = '#ffeb3b'
+green = '#4caf50'
+
 # Data model
 import datamodel
 
@@ -59,7 +65,7 @@ def summary_graph1():
 
     total = data.total_diagnosticados + data.total_recuperados + data.total_evacuados + data.total_muertes
 
-    wedges, _, _  = ax.pie([data.total_diagnosticados, data.total_recuperados, data.total_evacuados, data.total_muertes], autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95))
+    wedges, _, _  = ax.pie([data.total_diagnosticados, data.total_recuperados, data.total_evacuados, data.total_muertes], autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95), colors=[red, blue, yellow, green])
     ax.legend(wedges, [
         'Diagnosticados ' + str(round(data.total_diagnosticados/total*100, 1)) + '%',
         'Recuperados ' + str(round(data.total_recuperados/total*100, 1)) + '%', 
@@ -85,7 +91,7 @@ def summary_graph2():
 
     total = data.total_ingresados + data.total_activos
 
-    wedges, _, _  = ax.pie([data.total_ingresados, data.total_activos], autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95))
+    wedges, _, _  = ax.pie([data.total_ingresados, data.total_activos], autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95), colors=[blue, red])
     ax.legend(wedges, [
         'Ingresados ' + str(round(data.total_ingresados/total*100, 1)) + '%', 
         'Activos ' + str(round(data.total_activos/total*100, 1)) + '%',
@@ -113,8 +119,8 @@ def evolution():
     xss = [str(i) for i in range(1,len(data.diagnosticados_acc)+1)]
     xs = range(0,len(data.diagnosticados_acc))
 
-    ax.plot(xss, data.diagnosticados_acc, 'o-', label='Casos acumulados')
-    ax.plot(xss, data.diagnosticados, 'o-', label='Casos en el día')
+    ax.plot(xss, data.diagnosticados_acc, 'o-', label='Casos acumulados', color=blue)
+    ax.plot(xss, data.diagnosticados, 'o-', label='Casos en el día', color=red)
 
     for x, y in zip(xs, data.diagnosticados_acc):
         label = "{}".format(y)
@@ -154,8 +160,8 @@ def evolution_fallecidos():
     xss = [str(i) for i in range(1,len(data.muertes_acc)+1)]
     xs = range(0,len(data.muertes_acc))
 
-    ax.plot(xss, data.muertes_acc, 'o-',label='Casos acumulados')
-    ax.plot(xss, data.muertes, 'o-',label='Casos en el día')
+    ax.plot(xss, data.muertes_acc, 'o-',label='Casos acumulados', color=blue)
+    ax.plot(xss, data.muertes, 'o-',label='Casos en el día', color=red)
 
     for x, y in zip(xs, data.muertes_acc):
         label = "{}".format(y)
@@ -203,7 +209,7 @@ def sexo():
 
     ax = fig.add_subplot(1, 1, 1)
 
-    wedges, _, _  = ax.pie([data.mujeres, data.hombres, data.non_sex], autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95))
+    wedges, _, _  = ax.pie([data.mujeres, data.hombres, data.non_sex], autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95), colors=[red, blue, yellow])
 
     ax.set_title('Casos por sexo', fontsize=20)
     ax.legend(wedges, data.sex_labels, loc='lower center', bbox_to_anchor=(0.9,0,0.5,0.5))
@@ -232,7 +238,7 @@ def modo():
 
     ax = fig.add_subplot(1, 1, 1)
 
-    wedges, _, _  = ax.pie(data.modos_values, autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95))
+    wedges, _, _  = ax.pie(data.modos_values, autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95), colors=[blue, red, yellow, green])
 
     ax.set_title('Casos por modo de contagio', fontsize=20)
     ax.legend(wedges, data.modos_labels, loc='lower center', bbox_to_anchor=(0.9,0,0.5,0.5))
@@ -260,7 +266,7 @@ def casos_extranjeros():
 
     ax = fig.add_subplot(1, 1, 1)
 
-    ax.bar([str(k) for k in data.paises.keys()], [v for v in data.paises.values()])
+    ax.bar([str(k) for k in data.paises.keys()], [v for v in data.paises.values()], color=red)
 
     ax.set_title('Distribución por nacionalidad casos extranjeros', fontsize=20)
 
@@ -284,7 +290,7 @@ def nacionalidad():
 
     ax = fig.add_subplot(1, 1, 1)
 
-    wedges, _, _  = ax.pie([data.cubanos, data.extranjeros], autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95))
+    wedges, _, _  = ax.pie([data.cubanos, data.extranjeros], autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.95), colors=[blue, red])
     ax.legend(wedges, ['Cubanos', 'Extranjeros'], loc='lower center', bbox_to_anchor=(0.9,0,0.5,1))
 
     ax.set_title('Casos por nacionalidad', fontsize=20)
@@ -312,7 +318,7 @@ def edad():
 
     ax = fig.add_subplot(1, 1, 1)
 
-    ax.bar([str(k) for k in data.edades.keys()], [v for v in data.edades.values()])
+    ax.bar([str(k) for k in data.edades.keys()], [v for v in data.edades.values()], color=red)
 
     for x, y in enumerate(data.edades.values()):
         label = "{}".format(y)
@@ -349,8 +355,8 @@ def test():
     xss = [str(k) for k in range(12, data.cant_days+1)]
     xs = range(0, data.cant_days+1 - 12)
 
-    ax1.bar(xss, data.cant_tests)
-    ax1.bar(xss, data.detected_acc)
+    ax1.bar(xss, data.cant_tests, color=red)
+    ax1.bar(xss, data.detected_acc, color=yellow)
 
     for x, y in zip(xs, data.cant_tests):
         label = "{}".format(y)
@@ -364,7 +370,7 @@ def test():
     ax1.set_title('Tests acumulados por día')
 
     # Proporción entre casos confirmados y test realizados
-    ax2.bar([str(k) for k in range(12, data.cant_days+1)], data.prop_test_vs_detected) 
+    ax2.bar([str(k) for k in range(12, data.cant_days+1)], data.prop_test_vs_detected, color=red) 
 
     ax2.set_title('Proporción detectados/tests realizados')
 
@@ -392,7 +398,7 @@ def provincia():
 
     ax = fig.add_subplot(1, 1, 1)
 
-    ax.barh([str(l[0]) for l in data.locations], [l[1] for l in data.locations], color='orange')
+    ax.barh([str(l[0]) for l in data.locations], [l[1] for l in data.locations], color=red)
 
     
     for i, v in enumerate(data.locations):
@@ -420,7 +426,7 @@ def municipio():
 
     ax = fig.add_subplot(1, 1, 1)
 
-    ax.barh([str(l[0]) for l in data.municipios_top10], [l[1] for l in data.municipios_top10], color='orange')
+    ax.barh([str(l[0]) for l in data.municipios_top10], [l[1] for l in data.municipios_top10], color=red)
 
     for i, v in enumerate(data.municipios_top10):
         label = "{} ({}%)".format(v[1], round(v[1]*100/data.total_diagnosticados, 2))
