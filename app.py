@@ -63,6 +63,8 @@ def summary_graph1():
 
     url = config.SERVER_URI + '/summary_graph1'
 
+    print(url)
+
     fig.text(1, 1, url,
          fontsize=12,
          ha='right', va='bottom', alpha=0.8)
@@ -94,6 +96,8 @@ def summary_graph2():
     fig = Figure(figsize=(9, 6))
 
     url = config.SERVER_URI + '/summary_graph2'
+
+    print(url)
 
     fig.text(1, 1, url,
          fontsize=12,
