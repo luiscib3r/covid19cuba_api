@@ -63,8 +63,6 @@ def summary_graph1():
 
     fig = Figure(figsize=(9, 6))
 
-    apiurl = config.SERVER_URI + '/summary_graph1'
-
     ax = fig.add_subplot(1, 1, 1)
 
     total = data.total_diagnosticados + data.total_recuperados + data.total_evacuados + data.total_muertes
@@ -81,6 +79,7 @@ def summary_graph1():
 
     FigureCanvasAgg(fig).print_png('summary1.png')
 
+    apiurl = config.SERVER_URI + '/summary_graph1'
     watermark_text('summary1.png', 'summary1.png', apiurl, (0,0))
 
     return send_file(
@@ -92,8 +91,6 @@ def summary_graph2():
     datamodel.updater(data) # Call to update
 
     fig = Figure(figsize=(9, 6))
-
-    apiurl = config.SERVER_URI + '/summary_graph2'
 
     ax = fig.add_subplot(1, 1, 1)
 
@@ -109,6 +106,7 @@ def summary_graph2():
 
     FigureCanvasAgg(fig).print_png('summary2.png')
 
+    apiurl = config.SERVER_URI + '/summary_graph2'
     watermark_text('summary2.png', 'summary2.png', apiurl, (0,0))
 
     return send_file(
@@ -152,6 +150,9 @@ def evolution():
 
     FigureCanvasAgg(fig).print_png('evolution.png')
 
+    apiurl = config.SERVER_URI + '/evolution'
+    watermark_text('evolution.png', 'evolution.png', apiurl, (0,0))
+
     return send_file(
         'evolution.png'
     )
@@ -193,6 +194,9 @@ def evolution_fallecidos():
 
     FigureCanvasAgg(fig).print_png('fallecidos.png')
 
+    apiurl = config.SERVER_URI + '/evolution_fallecidos'
+    watermark_text('fallecidos.png', 'fallecidos.png', apiurl, (0,0))
+
     return send_file(
         'fallecidos.png'
     )
@@ -223,6 +227,9 @@ def sexo():
 
     FigureCanvasAgg(fig).print_png('sexo.png')
 
+    apiurl = config.SERVER_URI + '/sexo'
+    watermark_text('sexo.png', 'sexo.png', apiurl, (0,0))
+
     return send_file(
         'sexo.png'
     )
@@ -252,6 +259,9 @@ def modo():
 
     FigureCanvasAgg(fig).print_png('modo.png')
 
+    apiurl = config.SERVER_URI + '/modo'
+    watermark_text('modo.png', 'modo.png', apiurl, (0,0))
+
     return send_file(
         'modo.png'
     )
@@ -279,6 +289,9 @@ def casos_extranjeros():
 
     FigureCanvasAgg(fig).print_png('paises.png')
 
+    apiurl = config.SERVER_URI + '/casos_extranjeros'
+    watermark_text('paises.png', 'paises.png', apiurl, (0,0))
+
     return send_file(
         'paises.png'
     )
@@ -303,6 +316,9 @@ def nacionalidad():
     ax.set_title('Casos por nacionalidad', fontsize=20)
 
     FigureCanvasAgg(fig).print_png('nacionalidad.png')
+
+    apiurl = config.SERVER_URI + '/nacionalidad'
+    watermark_text('nacionalidad.png', 'nacionalidad.png', apiurl, (0,0))
 
     return send_file(
         'nacionalidad.png'
@@ -339,6 +355,9 @@ def edad():
     ax.set_title('Distribución por grupos etarios', fontsize=20)
 
     FigureCanvasAgg(fig).print_png('edades.png')
+
+    apiurl = config.SERVER_URI + '/edad'
+    watermark_text('edades.png', 'edades.png', apiurl, (0,0))
 
     return send_file(
         'edades.png'
@@ -382,6 +401,9 @@ def test():
     ax2.set_title('Proporción detectados/tests realizados')
 
     FigureCanvasAgg(fig).print_png('tests.png')
+
+    apiurl = config.SERVER_URI + '/test'
+    watermark_text('tests.png', 'tests.png', apiurl, (0,0))
 
     return send_file(
         'tests.png'
@@ -431,6 +453,9 @@ def provincia():
 
     FigureCanvasAgg(fig).print_png('provincias.png')
 
+    apiurl = config.SERVER_URI + '/provincias'
+    watermark_text('provincias.png', 'provincias.png', apiurl, (0,0))
+
     return send_file(
         'provincias.png'
     )
@@ -467,6 +492,9 @@ def municipio():
     ax.set_title('Casos detectados por municipios (Top 10)',fontsize = 20)
 
     FigureCanvasAgg(fig).print_png('municipios.png')
+
+    apiurl = config.SERVER_URI + '/municipios'
+    watermark_text('municipios.png', 'municipios.png', apiurl, (0,0))
 
     return send_file(
         'municipios.png'
