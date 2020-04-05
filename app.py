@@ -326,7 +326,7 @@ def edad():
                       xytext=(0,4),
                       ha='center')
 
-    ax.set_title('Distribución por rangos etarios', fontsize=20)
+    ax.set_title('Distribución por grupos etarios', fontsize=20)
 
     FigureCanvasAgg(fig).print_png('edades.png')
 
