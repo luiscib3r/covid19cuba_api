@@ -61,6 +61,12 @@ def summary_graph1():
 
     fig = Figure(figsize=(9, 6))
 
+    url = config.SERVER_URI + '/summary_graph1'
+
+    fig.text(1, 1, url,
+         fontsize=12,
+         ha='right', va='bottom', alpha=0.8)
+
     ax = fig.add_subplot(1, 1, 1)
 
     total = data.total_diagnosticados + data.total_recuperados + data.total_evacuados + data.total_muertes
@@ -86,6 +92,12 @@ def summary_graph2():
     datamodel.updater(data) # Call to update
 
     fig = Figure(figsize=(9, 6))
+
+    url = config.SERVER_URI + '/summary_graph2'
+
+    fig.text(1, 1, url,
+         fontsize=12,
+         ha='right', va='bottom', alpha=0.8)
 
     ax = fig.add_subplot(1, 1, 1)
 
