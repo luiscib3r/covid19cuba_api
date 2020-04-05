@@ -195,8 +195,8 @@ def updater(datamodel: DataModel):
                     edades['19-40'] += 1
                 elif edad >= 41 and edad <= 60:
                     edades['41-60'] += 1
-                elif edad >= 60 and edad <= 80:
-                    edades['60-80'] += 1
+                elif edad >= 61 and edad <= 80:
+                    edades['61-80'] += 1
                 else:
                     edades['+81'] += 1
         except:
