@@ -13,5 +13,5 @@ def watermark_text(input_image_path,
     font = ImageFont.truetype("./font.ttf", 15)
     w, h = drawing.textsize(text)
     drawing.text((10,H-h-20), text, fill=black, font=font)
-    photo.show()
+    #photo.show()
     photo.save(output_image_path)
