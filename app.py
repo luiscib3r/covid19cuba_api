@@ -61,11 +61,11 @@ def summary_graph1():
 
     fig = Figure(figsize=(9, 6))
 
-    url = config.SERVER_URI + '/summary_graph1'
+    apiurl = config.SERVER_URI + '/summary_graph1'
 
-    print(url)
+    print(apiurl)
 
-    fig.text(1, 1, url,
+    fig.text(1, 1, apiurl,
          fontsize=12,
          ha='right', va='bottom', alpha=0.8)
 
@@ -95,11 +95,11 @@ def summary_graph2():
 
     fig = Figure(figsize=(9, 6))
 
-    url = config.SERVER_URI + '/summary_graph2'
+    apiurl = config.SERVER_URI + '/summary_graph2'
 
-    print(url)
+    print(apiurl)
 
-    fig.text(1, 1, url,
+    fig.text(1, 1, apiurl,
          fontsize=12,
          ha='right', va='bottom', alpha=0.8)
 
