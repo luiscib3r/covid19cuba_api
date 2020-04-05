@@ -174,7 +174,7 @@ def updater(datamodel: DataModel):
     info['extranjeros'] = extranjeros
 
     # Distribución por grupos etarios
-    edades = {'0-18': 0, '19-40': 0, '41-60': 0, '+60': 0, 'Desconocido': 0}
+    edades = {'0-4': 0, '5-9': 0, '10-18': 0, '19-40': 0, '41-60': 0, '61-80': 0, '+81': 0, 'Desconocido': 0}
 
     for k in range(1, len(data['casos']['dias'].keys())+1):
         try:
@@ -185,14 +185,20 @@ def updater(datamodel: DataModel):
                     edades['Desconocido'] += 1
                     continue
             
-                if edad <= 18 :
-                    edades['0-18'] += 1
+                if edad <= 4 :
+                    edades['0-4'] += 1
+                elif edad >= 5 and edad <= 9:
+                    edades['5-9'] += 1
+                elif edad >= 10 and edad <= 18:
+                    edades['10-18'] += 1
                 elif edad >= 19 and edad <= 40:
                     edades['19-40'] += 1
                 elif edad >= 41 and edad <= 60:
                     edades['41-60'] += 1
+                elif edad >= 60 and edad <= 80:
+                    edades['60-80'] += 1
                 else:
-                    edades['+60'] += 1
+                    edades['+81'] += 1
         except:
             pass
 
