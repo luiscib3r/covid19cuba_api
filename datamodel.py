@@ -173,13 +173,16 @@ def updater(datamodel: DataModel):
     info['cubanos'] = cubanos
     info['extranjeros'] = extranjeros
 
-    # Distribución por rangos etarios
-    edades = {'0-18': 0, '19-40': 0, '41-60': 0, '+60': 0}
+    # Distribución por grupos etarios
+    edades = {'0-18': 0, '19-40': 0, '41-60': 0, '+60': 0, 'Desconocido': 0}
 
     for k in range(1, len(data['casos']['dias'].keys())+1):
         try:
             for caso in data['casos']['dias'][str(k)]['diagnosticados']:
-                edad = caso['edad']
+                try:
+                    edad = int(caso['edad'])
+                except TypeError:
+                    edades['Desconocido'] += 1
             
                 if edad <= 18 :
                     edades['0-18'] += 1
