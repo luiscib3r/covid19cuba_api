@@ -5,6 +5,8 @@ from flask_cors import CORS
 import seaborn as sns
 sns.set_style('darkgrid')
 
+from imagemark import watermark_text
+
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib.figure import Figure
 
@@ -63,12 +65,6 @@ def summary_graph1():
 
     apiurl = config.SERVER_URI + '/summary_graph1'
 
-    print(apiurl)
-
-    fig.text(1, 1, apiurl,
-         fontsize=12,
-         ha='right', va='bottom', alpha=0.8)
-
     ax = fig.add_subplot(1, 1, 1)
 
     total = data.total_diagnosticados + data.total_recuperados + data.total_evacuados + data.total_muertes
@@ -85,6 +81,8 @@ def summary_graph1():
 
     FigureCanvasAgg(fig).print_png('summary1.png')
 
+    watermark_text('summary1.png', 'summary1.png', apiurl, (0,0))
+
     return send_file(
         'summary1.png'
     )
@@ -96,12 +94,6 @@ def summary_graph2():
     fig = Figure(figsize=(9, 6))
 
     apiurl = config.SERVER_URI + '/summary_graph2'
-
-    print(apiurl)
-
-    fig.text(1, 1, apiurl,
-         fontsize=12,
-         ha='right', va='bottom', alpha=0.8)
 
     ax = fig.add_subplot(1, 1, 1)
 
@@ -116,6 +108,8 @@ def summary_graph2():
     ax.set_title('Activos | Ingresados', fontsize=20)
 
     FigureCanvasAgg(fig).print_png('summary2.png')
+
+    watermark_text('summary2.png', 'summary2.png', apiurl, (0,0))
 
     return send_file(
         'summary2.png'

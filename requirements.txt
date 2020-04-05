@@ -6,3 +6,4 @@ seaborn
 pymongo
 dnspython
 requests
+pillow
