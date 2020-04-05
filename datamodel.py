@@ -183,6 +183,7 @@ def updater(datamodel: DataModel):
                     edad = int(caso['edad'])
                 except TypeError:
                     edades['Desconocido'] += 1
+                    continue
             
                 if edad <= 18 :
                     edades['0-18'] += 1
