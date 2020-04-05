@@ -11,7 +11,7 @@ def watermark_text(input_image_path,
 
     wl, hl = logo.size
 
-    photo.paste(logo, (10,H-hl-20))
+    photo.paste(logo, (10,H-hl-15))
 
     # make the image editable
     drawing = ImageDraw.Draw(photo)
