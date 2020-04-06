@@ -149,7 +149,12 @@ def updater(datamodel: DataModel):
     for k in range(1, len(data['casos']['dias'].keys())+1):
         try:
             for caso in data['casos']['dias'][str(k)]['diagnosticados']:
-                modos[caso['contagio']] += 1
+                mod = str(caso['contagio']).title()
+
+                if mod != 'None':
+                    modos[mod] += 1
+                else:
+                    modos['Desconocido'] += 1
         except:
             pass
 
