@@ -8,6 +8,7 @@ API for Covid19CubaData
 - https://covid19cuba-api.herokuapp.com/summary_graph1
 - https://covid19cuba-api.herokuapp.com/summary_graph2
 - https://covid19cuba-api.herokuapp.com/evolution
+- https://covid19cuba-api.herokuapp.com/evolution_recuperados
 - https://covid19cuba-api.herokuapp.com/evolution_fallecidos
 - https://covid19cuba-api.herokuapp.com/evolution_text
 - https://covid19cuba-api.herokuapp.com/sexo
