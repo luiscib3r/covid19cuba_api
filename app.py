@@ -119,7 +119,7 @@ def summary_graph2():
 def evolution():
     datamodel.updater(data) # Call to update
 
-    fig = Figure(figsize=(12, 7))
+    fig = Figure(figsize=(12, 8))
 
     ax = fig.add_subplot(1, 1, 1)
 
