@@ -45,6 +45,13 @@ def updater(datamodel: DataModel):
 
     info['recuperados'] = recuperados
 
+    recuperados_acc = []
+
+    for i, _ in enumerate(recuperados):
+        recuperados_acc.append(sum(recuperados[:i+1]))
+
+    info['recuperados_acc'] = recuperados_acc
+
     # Cantidad evacuados por dia
     evacuados = []
 
@@ -74,6 +81,15 @@ def updater(datamodel: DataModel):
         muertes_acc.append(sum(muertes[:i+1]))
 
     info['muertes_acc'] = muertes_acc
+
+    # activos
+
+    activos_acc = []
+
+    for i, _ in enumerate(diagnosticados):
+        activos_acc.append(sum(diagnosticados[:i+1]) - (sum(recuperados[:i+1]) + sum(evacuados[:i+1]) + sum(muertes[:i+1])))
+
+    info['activos_acc'] = activos_acc
 
     # Total diagnosticados
     total_diagnosticados = sum(diagnosticados)

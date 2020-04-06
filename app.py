@@ -15,6 +15,8 @@ red = '#f44336'
 blue = '#2196f3'
 yellow = '#ffeb3b'
 green = '#4caf50'
+cyan = '#00577b'
+black='#1c1340'
 
 # Data model
 import datamodel
@@ -124,10 +126,20 @@ def evolution():
     xss = [str(i) for i in range(1,len(data.diagnosticados_acc)+1)]
     xs = range(0,len(data.diagnosticados_acc))
 
-    ax.plot(xss, data.diagnosticados_acc, 'o-', label='Casos acumulados', color=blue)
-    ax.plot(xss, data.diagnosticados, 'o-', label='Casos en el día', color=red)
+    ax.plot(xss, data.diagnosticados_acc, 'o-', label='Casos acumulados', color=red, alpha=0.5)
+    ax.plot(xss, data.activos_acc, 'o-', label='Casos activos', color=red)
+    ax.plot(xss, data.diagnosticados, 'o-', label='Casos en el día', color=cyan)
 
     for x, y in zip(xs, data.diagnosticados_acc):
+        label = "{}".format(y)
+
+        ax.annotate(label,
+                     (x,y),
+                      textcoords='offset points',
+                      xytext=(0,10),
+                      ha='center')
+
+    for x, y in zip(xs, data.activos_acc):
         label = "{}".format(y)
 
         ax.annotate(label,
@@ -157,6 +169,51 @@ def evolution():
         'evolution.png'
     )
 
+@app.route('/evolution_recuperados', methods=['GET'])
+def evolution_recuperados():
+    datamodel.updater(data) # Call to update
+
+    fig = Figure(figsize=(12, 7))
+
+    ax = fig.add_subplot(1, 1, 1)
+
+    xss = [str(i) for i in range(1,len(data.muertes_acc)+1)]
+    xs = range(0,len(data.muertes_acc))
+
+    ax.plot(xss, data.recuperados_acc, 'o-',label='Altas acumuladas', color=blue)
+    ax.plot(xss, data.recuperados, 'o-',label='Altas en el día', color=cyan)
+
+    for x, y in zip(xs, data.recuperados_acc):
+        label = "{}".format(y)
+
+        ax.annotate(label,
+                     (x,y),
+                      textcoords='offset points',
+                      xytext=(0,10),
+                      ha='center')
+
+    for x, y in zip(xs, data.recuperados):
+        label = "{}".format(y)
+
+        ax.annotate(label,
+                     (x,y),
+                      textcoords='offset points',
+                      xytext=(0,-15),
+                      ha='center')
+    
+    ax.set_title('Evolución de altas por días', fontsize=15)
+    fig.legend(frameon=True, fontsize=12)
+
+    FigureCanvasAgg(fig).print_png('recuperados.png')
+
+    apiurl = config.SERVER_URI + '/evolution_recuperados'
+    watermark_text('recuperados.png', 'recuperados.png', apiurl, (0,0))
+
+    return send_file(
+        'recuperados.png'
+    )
+
+
 @app.route('/evolution_fallecidos', methods=['GET'])
 def evolution_fallecidos():
     datamodel.updater(data) # Call to update
@@ -168,8 +225,8 @@ def evolution_fallecidos():
     xss = [str(i) for i in range(1,len(data.muertes_acc)+1)]
     xs = range(0,len(data.muertes_acc))
 
-    ax.plot(xss, data.muertes_acc, 'o-',label='Casos acumulados', color=blue)
-    ax.plot(xss, data.muertes, 'o-',label='Casos en el día', color=red)
+    ax.plot(xss, data.muertes_acc, 'o-',label='Muertes acumuladas', color=black)
+    ax.plot(xss, data.muertes, 'o-',label='Muertes en el día', color=cyan)
 
     for x, y in zip(xs, data.muertes_acc):
         label = "{}".format(y)
@@ -189,7 +246,7 @@ def evolution_fallecidos():
                       xytext=(0,-15),
                       ha='center')
 
-    ax.set_title('Evolución de casos por días (Fallecidos)', fontsize=15)
+    ax.set_title('Evolución de muertes por días', fontsize=15)
     fig.legend(frameon=True, fontsize=12)
 
     FigureCanvasAgg(fig).print_png('fallecidos.png')
@@ -209,7 +266,9 @@ def evolution_text():
         'diagnosticados': data.diagnosticados,
         'diagnosticados_acc': data.diagnosticados_acc,
         'fallecidos': data.muertes,
-        'fallecidos_acc': data.muertes_acc
+        'fallecidos_acc': data.muertes_acc,
+        'recuperados': data.recuperados,
+        'recuperados_acc': data.recuperados_acc
     })
 
 @app.route('/sexo', methods=['GET'])
