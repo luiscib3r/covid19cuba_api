@@ -4,7 +4,10 @@ import config
 
 from pymongo import MongoClient
 
-client = MongoClient(config.MONGO_URI)
+try:
+    client = MongoClient(config.MONGO_URI)
+except:
+    print("Failed to connect to server {}".format(config.MONGO_URI))
 
 db = client.tbot
 
