@@ -42,6 +42,6 @@ def getdata():
 
     doc = [d for d in col.find()][-1]
 
-    data = json.loads(doc['data'])
+    data = json.loads(doc['data'].decode('utf-8'))
     
     return data
