@@ -26,7 +26,11 @@ import datamodel
 data = datamodel.DataModel()
 
 # Setting api
-app = Flask(__name__)
+app = Flask(__name__, 
+    static_url_path='',
+    static_folder='.'
+)
+
 CORS(app)
 
 @app.route('/', methods=['GET'])
