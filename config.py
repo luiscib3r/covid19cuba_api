@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 
 MONGO_URI = os.environ.get('MONGO_URI')

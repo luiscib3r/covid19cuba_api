@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import mdb
 
 from collections import defaultdict
